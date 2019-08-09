@@ -132,7 +132,7 @@ print_modname() {
 # Copy/extract your module files into $MODPATH in on_install.
 
 on_install() {
-  ui_print "[1/5] Extracting files..";
+  ui_print "[1/3] Extracting files..";
   unzip -o "$ZIPFILE" 'system/*' -d $MODPATH >&2;
   #mkdir -p $MODPATH/system/bin/raw
   #mkdir -p $MODPATH/tmp
@@ -140,29 +140,29 @@ on_install() {
   #unzip -o "$ZIPFILE" 'common/magisk_ssh_library_wrapper' -d "$MODPATH/tmp" >&2
   #mv "$MODPATH/tmp/common/magisk_ssh_library_wrapper" "$MODPATH/system/bin/raw"
 
-  ui_print "[2/5] Recreating symlinks"
+  ui_print "[2/3] Recreating symlinks"
   ln -s ./libcrypto.so.1.0.0 "$MODPATH/system/usr/lib/libcrypto.so"
   #for f in scp sftp sftp-server ssh ssh-keygen sshd; do
   #  mv "$MODPATH/system/bin/$f" "$MODPATH/system/bin/raw/$f"
   #  ln -s ./raw/magisk_ssh_library_wrapper "$MODPATH/system/bin/$f"
   #done
 
-  ui_print "[3/5] Creating SSH user directories"
-  mkdir -p /data/ssh
+  #ui_print "[3/3] Creating SSH user directories"
+  #mkdir -p /data/ssh
   mkdir -p /data/.ssh
-  mkdir -p /data/ssh/root/.ssh
-  mkdir -p /data/ssh/shell/.ssh
+  #mkdir -p /data/ssh/root/.ssh
+  #mkdir -p /data/ssh/shell/.ssh
 
-  if [ -f /data/ssh/sshd_config ]; then
-    ui_print "[4/5] Found sshd_config, will not copy a default one"
-  else
-    ui_print "[4/5] Extracting sshd_config"
-    unzip -o "$ZIPFILE" 'common/sshd_config' -d "$TMPDIR" >&2
-    mv "$TMPDIR/common/sshd_config" '/data/ssh/'
-  fi
+  #if [ -f /data/ssh/sshd_config ]; then
+  #  ui_print "[4/5] Found sshd_config, will not copy a default one"
+  #else
+  #  ui_print "[4/5] Extracting sshd_config"
+  #  unzip -o "$ZIPFILE" 'common/sshd_config' -d "$TMPDIR" >&2
+  #  mv "$TMPDIR/common/sshd_config" '/data/ssh/'
+  #fi
 
-  ui_print "[5/5] Cleaning up"
-  rm -rf "$TMPDIR"
+  ui_print "[3/3] Installation finished"
+  #rm -rf "$TMPDIR"
 }
 
 # Only some special files require specific permissions
@@ -179,10 +179,10 @@ set_permissions() {
   chown -R 0:0 $MODPATH/system/usr/lib
   chmod -R 755 $MODPATH/system/usr/lib
 
-  set_perm /data/ssh/sshd_config 0 0 0600
-  chown shell:shell /data/ssh/shell
-  chown shell:shell /data/ssh/shell/.ssh
-  chown root:root /data/ssh/root
-  chown root:root /data/ssh/root/.ssh
-  chmod 700 /data/ssh/{shell,root}/.ssh
+  #set_perm /data/ssh/sshd_config 0 0 0600
+  #chown shell:shell /data/ssh/shell
+  #chown shell:shell /data/ssh/shell/.ssh
+  #chown root:root /data/ssh/root
+  #chown root:root /data/ssh/root/.ssh
+  #chmod 700 /data/ssh/{shell,root}/.ssh
 }
