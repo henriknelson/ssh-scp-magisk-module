@@ -1,6 +1,6 @@
-id=openssh-ndk
+id=ssh-scp-ndk
 name=ssh/scp for Android
 version=v0.9
 versionCode=1
 author=nelshh
-description=A statically built version of the latest stable scp and ssh binaries for android (aarch64)
+description=A statically built version of the latest stable ssh and scp binaries for android (aarch64)
